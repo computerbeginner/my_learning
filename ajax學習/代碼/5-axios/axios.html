@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>axios發送ajax請求</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.7.7/axios.min.js"></script>
+</head>
+<body>
+    <button>GET</button>
+    <button>POST</button>
+    <button>AJAX</button>
+    <script>
+        const btns = document.querySelectorAll('button');
+        //配置baseURL
+        axios.defaults.baseURL = 'http://127.0.0.1:8000';
+
+        btns[0].onclick = function(){
+            //GET請求
+            axios.get('/axios-server', {
+                //url參數
+                params: {
+                    id:100,
+                    vip:7
+                },
+                //請求頭訊息
+                headers: {
+                    name:'atguigu',
+                    age:20
+                }
+            }).then(value=>{
+                console.log(value);
+            })
+        }
+
+        btns[1].onclick = function(){
+            //post請求
+            axios.post('axios-server', {
+                //請求體
+                username:'admin',
+                password:'admin'
+            }, {
+                //其他配置
+                params: {
+                    id:200,
+                    vip:9
+                },
+                headers: {
+                    height:180,
+                    weight:180
+                }
+            })
+        }
+
+        btns[2].onclick = function(){
+            axios({
+                //請求方法
+                method: 'POST',
+                //url
+                url: '/axios-server',
+                //url參數
+                params: {
+                    vip:10,
+                    level:30
+                },
+                //請求頭信息
+                headers: {
+                    a:100,
+                    b:200
+                },
+                //請求體參數
+                data: {
+                    username: 'admin',
+                    password: 'admin'
+                }
+            }).then((response) => {
+                //響應訊息
+                console.log(response);
+                //響應體訊息
+                console.log(response.data);
+            })
+        }
+    </script>
+</body>
+</html>

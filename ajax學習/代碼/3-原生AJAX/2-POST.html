@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AJAX POST 請求</title>
+    <style>
+        #result{
+            width: 200px;
+            height: 100px;
+            border: solid 1px #90b;
+        }
+    </style>
+</head>
+<body>
+    <div id="result"></div>
+
+    <script>
+        const result = document.getElementById("result");
+        //綁定事件
+        result.addEventListener('mouseover', function(){
+            //1.創建對象
+            const xhr = new XMLHttpRequest();
+            //2.初始化
+            xhr.open('POST', 'http://127.0.0.1:8000/server');
+            //設置預先定義好的請求頭
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded')
+            //設置自定義的請求頭
+            xhr.setRequestHeader('name', 'atguigu');
+            //3.發送 可傳遞post參數
+            xhr.send('a=100&b=200&c=300');
+            //4.事件綁定 處理服務端返回結果
+            xhr.onreadystatechange = function(){
+                //判斷服務端返回的結果
+                if(xhr.readyState === 4){
+                    //判斷響應成功碼 200 404 403 500 之類的響應狀態碼
+                    if(xhr.status >= 200 && xhr.status < 300){
+                        //響應碼
+                        //console.log(xhr.status);
+                        //響應狀態
+                        //console.log(xhr.statusText);
+                        //響應頭
+                        //console.log(xhr.getAllResponseHeaders);
+                        //響應體
+                        //console.log(xhr.response);
+
+                        result.innerHTML = xhr.response;
+                    }
+                }
+            }
+        })
+    </script>
+</body>
+</html>

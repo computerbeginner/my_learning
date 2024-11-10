@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSON響應格式</title>
+    <style>
+        #result{
+            width: 200px;
+            height: 100px;
+            border: 1px solid #89b;
+        }
+    </style>
+</head>
+<body>
+    <div id="result"></div>
+    <script>
+        const result = document.getElementById('result');
+        //綁定鍵盤按下事件
+        window.onkeydown = function(){
+            const xhr = new XMLHttpRequest();
+            xhr.open('GET', 'http://127.0.0.1:8000/json-server');
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4){
+                    if(xhr.status >= 200 && xhr.status <= 300){
+                        //方法一 將響應回來的數據轉回對象形式
+                        
+                        let data = JSON.parse(xhr.response)
+                        console.log(data)
+                        result.innerHTML = data.name
+                        
+                       //方法二 先設置xhr.responseType = 'json'
+                       //可直接用xhr.response接收數據
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

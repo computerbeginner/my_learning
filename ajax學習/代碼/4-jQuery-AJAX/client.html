@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery發送ajax請求</title>
+    <script src="./jquery-3.7.1.min.js"></script>
+    <style>
+        button{
+            margin: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div>jQuery發送ajax請求</div>
+    <hr>
+    <button>GET</button>
+    <button>POST</button>
+    <button>通用型方法AJAX</button>
+    <script>
+        $('button').eq(0).click(function(){
+            $.get('http://127.0.0.1:8000/jquery-server', {a:100, b:200}, function(data){
+                console.log(data);
+                //響應體返回格式為json
+            }, 'json')
+        });
+        $('button').eq(1).click(function(){
+            $.post('http://127.0.0.1:8000/jquery-server', {a:100, b:200}, function(data){
+                console.log(data);
+            })
+        });
+        $('button').eq(2).click(function(){
+            $.ajax({
+                //網址
+                url: 'http://127.0.0.1:8000/jquery-server',
+                //參數
+                data: {a:100, b:200},
+                //請求類型
+                type: 'GET',
+                //響應體格式
+                dataType: 'json',
+                //成功回調
+                success: function(data){
+                    console.log(data);
+                },
+                //失敗回調
+                error: function(){
+                    console.log('請求失敗')
+                },
+                //請求頭信息
+                headers: {
+                    c:300,
+                    d:400
+                }
+            });
+        });
+    </script>
+</body>
+</html>

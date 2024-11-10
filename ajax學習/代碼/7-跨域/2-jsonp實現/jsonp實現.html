@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsonp實現</title>
+</head>
+<body>
+    用戶名: <input type="text" id="username">
+    <p></p>
+
+    <script>
+        const input = document.querySelector('input');
+        const p = document.querySelector('p');
+
+        //聲明handle函數
+        function handle(data){
+            input.style.border = '1px solid #f00';
+            p.innerHTML = data.msg;
+        }
+
+        //失去焦點時
+        input.onblur = function(){
+            //獲取用戶輸入值
+            let username = this.value;
+            //向服務器發請求，確認用戶是否存在
+            //1.創建script標籤
+            const script = document.createElement('script');
+            //2.設定src屬性
+            script.src = 'http://127.0.0.1:8000/check-username';
+            //3.將script插入文檔
+            document.body.appendChild(script);
+        }
+    </script>
+</body>
+</html>

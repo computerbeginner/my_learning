@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jQuery-jsonp</title>
+    <script src="./jquery-3.7.1.min.js"></script>
+    <style>
+        #result{
+            width: 300px;
+            height: 100px;
+            border: 1px solid #089;
+        }
+    </style>
+</head>
+<body>
+    <button>點擊發送jsonp請求</button>
+    <div id="result"></div>
+
+    <script>
+        $('button').eq(0).click(function(){
+            //用jquery寫url時要在後面加?callback=?
+            $.getJSON('http://127.0.0.1:8000/jquery-jsonp-server?callback=?', function(data){
+                $('#result').html(`
+                    名稱: ${data.name}<br>
+                    校區: ${data.city}
+                `);
+            });
+        })
+    </script>
+</body>
+</html>

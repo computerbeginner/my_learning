@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>重複請求問題</title>
+</head>
+<body>
+    <button>點擊發送</button>
+    <script>
+        const btn = document.querySelector('button');
+        let xhr = null;
+        //是否正在發送ajax請求
+        let isSending = false
+
+        btn.onclick = function(){
+            //如果正在發送，則取消請求，在創建一個新的請求
+            if(isSending) xhr.abort();
+            xhr = new XMLHttpRequest();
+            //正在發送請求
+            isSending = true;
+            xhr.open('GET', 'http://127.0.0.1:8000/delay');
+            xhr.send();
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState === 4){
+                    //發送完成後，把是否正在發送改為false
+                    isSending = false;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
