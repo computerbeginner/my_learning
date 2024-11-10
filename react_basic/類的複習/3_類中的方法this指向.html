@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3_類中的方法this指向</title>
+</head>
+<body>
+    <script>
+        class Person {
+            constructor(name, age){
+                this.name = name;
+                this.age = age;
+            };
+            study() {
+                // study方法放在類的原型對象上，供實例對象調用
+                // 通過實例對象調用study時，study的this就是實例對象
+                console.log(this);
+            };
+        };
+
+        const p1 = new Person('tom', 18);
+        p1.study() // 通過實例對象調用
+
+        // const x = p1.study;
+        // x(); // 一般調用(是不行的)
+    </script>
+</body>
+</html>

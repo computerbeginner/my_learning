@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高階函數_函數柯里化</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> //類型一定要寫babel
+        /*
+            高階函數:如果函數符合以下一條件，為高階函數
+                1.若A函數，接收的參數是一個函數，A為高階函數
+                2.若A函數，返回值為函數，A為高階函數
+                例如:promise,定時器,arr.map()等等
+
+            函數柯里化:通過函數調用繼續返回函數，實現多次接受參數最後統一處理的函數形式
+        */
+
+        // 創建組件
+        class Login extends React.Component {
+            state = {
+                username: '',
+                password: ''
+            }
+            // 表單提交回調
+            handleSubmit = (e) => {
+                e.preventDefault()
+                const {username, password} = this.state
+                alert(`用戶名為:${username},密碼為:${password}`)
+            }
+
+            // 保存表單數據到狀態中
+            saveFormData = (dataType) => {
+                return (e) => {
+                    // console.log(dataType, e.target.value)
+                    this.setState({[dataType]: e.target.value})
+                }
+            }
+
+            render() {
+                return(
+                    <form onSubmit={this.handleSubmit}>
+                        用戶名: <input onChange={this.saveFormData('username')} type="text" name="username"/>
+                        密碼: <input onChange={this.saveFormData('password')} type="password" name="password"/>    
+                        <button>登錄</button>
+                    </form>
+                )
+            }
+        }
+        
+        // 渲染虛擬DOM到頁面
+        ReactDOM.render(<Login/>, document.getElementById('test'));
+    </script>
+</body>
+</html>

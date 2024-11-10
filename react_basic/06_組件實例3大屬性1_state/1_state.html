@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_state屬性</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> 
+        // 創建組件
+        class Weather extends React.Component {
+            // 構造器調用幾次?  1次
+            constructor(props){
+                console.log('constructor');
+                super(props);
+                // 初始化狀態
+                this.state = {isHot: false, wind: '微風'};
+                // 解決changeWeather中this指向問題
+                this.changeWeather = this.changeWeather.bind(this);
+            };
+            // render調用幾次?  1+n次 初始化那次加上n次修改數據時
+            render(){
+                console.log('render');
+                // 讀取狀態
+                const {isHot, wind} = this.state;
+                return <h1 onClick={this.changeWeather}>今天天氣很{isHot ? '炎熱' : '涼爽'}, {wind}</h1>;
+            };
+            // changeWeather調用幾次?  點幾次調用幾次
+            changeWeather(){
+                // changeWeather放在哪裡: weather的原型對象上，供實例使用
+                // 由於changeWeather作為onClick回調，所以不是通過實例對象調用的，而是直接調用
+                // 類中的方法默認開啟了局部的嚴格模式，所以changeWeather中的this為undefined
+                // console.log(this);
+
+                const isHot = this.state.isHot;
+                // 注意:狀態必須通過此法更改，且更新是一種合併，不是替換整個state中的數據
+                this.setState({isHot: !isHot});
+
+                // 注意:狀態不可如下行直接更改
+                // this.state.isHot = !isHot;
+            };
+        };
+
+        ReactDOM.render(<Weather/>, document.getElementById('test'));
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>jsx小練習</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel">
+        /*
+            一定要區分:
+                1.表達式:一個表達式會產生一個值，可放在任何需要值的地方
+                    (1) a
+                    (2) a+b
+                    (3) demo(1)
+                    (4) arr.map()
+                    (5) function test() {}
+                2.語句:
+                    (1) if(){}
+                    (2) for(){}
+                    (3) switch(){}
+        */
+        const data = ['Angular', 'React', 'Vue'];
+        // 創建虛擬DOM
+        // 只能寫表達式不能寫語句
+        const VDDM = (
+            <div>
+                <h1>前端js框架</h1>
+                <ul>
+                    {
+                        data.map((item, index) => {
+                            return <li key={index}>{item}</li>
+                        })
+                    }
+                </ul>
+            </div>
+        );
+
+        // 渲染虛擬DOM到頁面
+        ReactDOM.render(VDDM, document.getElementById('test'));
+    </script>
+</body>
+</html>

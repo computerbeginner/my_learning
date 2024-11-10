@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2_對props進行限制</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+    <div id="test1"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+    <!-- 引入prop-types，用於對組件標籤屬性進行限制 -->
+    <script type="text/javascript" src="../js/prop-types.js"></script>
+
+    <script type="text/babel"> //類型一定要寫babel
+        class Person extends React.Component{
+            render() {
+                // console.log(this);
+                return (
+                    <ul>
+                        <li>姓名:{this.props.name}</li>
+                        <li>性別:{this.props.age}</li>
+                        <li>年齡:{this.props.sex}</li>
+                    </ul>
+                )
+            }
+        }
+
+        // 對標籤屬性和方法進行類型，必要性的限制
+        Person.propTypes = {
+            name: PropTypes.string.isRequired,
+            sex: PropTypes.string,
+            age: PropTypes.number,
+            speak: PropTypes.func
+        }
+        // 指定默認標籤屬性值
+        Person.defaultProps = {
+            sex: '第三性',
+            age: 18
+        }
+
+        ReactDOM.render(<Person name="Tom" age={20} sex="男" speak={speak} />, document.getElementById('test'));
+
+        // 另一種傳遞props的寫法
+        const p = {name: '老劉', age: 18, sex: '男'};
+        ReactDOM.render(<Person {...p} />, document.getElementById('test1'));
+
+        function speak() {
+            console.log('我會說話');
+        }
+    </script>
+</body>
+</html>

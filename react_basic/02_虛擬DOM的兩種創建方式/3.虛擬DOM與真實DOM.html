@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.虛擬DOM與真實DOM</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> //類型一定要寫babel
+        // 創建虛擬DOM
+        const VDDM = ( //不要寫引號，不是字符串
+            <h1 id="title">
+                <span>Hello,React</span>
+            </h1>
+        ) 
+        // 渲染虛擬DOM到頁面
+        ReactDOM.render(VDDM, document.getElementById('test'));
+
+        const TDDM = document.getElementById('test');
+        console.log('虛擬DOM', VDDM);
+        console.log('真實DOM', TDDM);
+
+        console.log(typeof VDDM);
+        console.log(VDDM instanceof Object);
+        /*
+            關於虛擬DOM:
+                1.本質是Object類型的實例對象
+                2.虛擬DOM內部屬性少，真實DOM內部屬性多，
+                  因為虛擬DOM是React內部在用，無需真實DOM上過多屬性。
+                3.虛擬DOM最終會被React轉化為真實DOM，呈現在頁面上。
+        */
+    </script>
+</body>
+</html>

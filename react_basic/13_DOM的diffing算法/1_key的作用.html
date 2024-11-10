@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_key的作用</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> //類型一定要寫babel
+        /*
+            經典面試題:
+                Q1.react/vue中的key有什麼作用?
+                Q2.為什麼遍歷列表時，key最好不要用index?
+
+                A1:虛擬DOM中key的作用:
+                    1.簡單說:key是虛擬DOM對象的標示，在更新顯示時key很重要
+                    2.詳細說:當狀態中的數據變化時，react會根據新數據生成新的虛擬DOM，
+                            隨後新舊虛擬DOM進行diff算法比較，規則如下:
+                                a.舊虛擬DOM找到與新虛擬DOM相同的key:
+                                    若虛擬DOM中內容沒變，直接使用之前的真實DOM
+                                    若虛擬DOM中內容變化，則生成新的真實DOM替換原先的真實DOM
+                                b.舊虛擬DOM沒有找到與新虛擬DOM相同的key:
+                                    創建新的真實DOM，隨後渲染到頁面
+
+                A2:用index作為key可能會引發的問題:
+                    若對數據進行逆向(添加在數據的第一筆)添加或刪除，此時如果結構中包含輸入框之類的DOM元素，則會出現問題
+                
+                結論:最好用id之類的唯一標示做key
+        */
+
+        class Person extends React.Component {
+            state = {
+                persons: [
+                    {id:1, name:'小張', age:18},
+                    {id:2, name:'小李', age:19}
+                ]
+            }
+
+            add = () => {
+                const {persons} = this.state
+                const p = {id: persons.length+1, name:'小王', age:20}
+                this.setState({persons: [p, ...persons]})
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h2>展示人員信息</h2>    
+                        <button onClick={this.add}>添加一個小王</button>
+                        <h3>使用index作為key</h3>
+                        <ul>
+                            {
+                                this.state.persons.map((personObj, index) => {
+                                    return <li key={index}>{personObj.name}---{personObj.age}<input type="text"/></li>
+                                })
+                            }    
+                        </ul>
+                        <hr/>
+                        <hr/>
+                        <h3>使用id作為key</h3>
+                        <ul>
+                            {
+                                this.state.persons.map((personObj) => {
+                                    return <li key={personObj.id}>{personObj.name}---{personObj.age}<input type="text"/></li>
+                                })
+                            }    
+                        </ul>
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Person/>, document.getElementById('test'))
+    </script>
+</body>
+</html>

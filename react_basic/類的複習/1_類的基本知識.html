@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_類的基本知識</title>
+</head>
+<body>
+    <script>
+        /*
+            總結:
+                1.構造器不是必須寫的，要對實例對象做一些初始操作，如添加屬性時才寫
+                2.如A類繼承B類，且A類寫了構造器，那麼A類構造器中的super要寫
+                3.類中所定義的方法，都放在類的原型對象上，供實例對象使用
+        */
+        // 創建類
+        class Person {
+            constructor(name, age){
+                // 構造器中的this是指:類的實例對象
+                this.name = name;
+                this.age = age;
+            }
+            // 一般方法
+            speak() {
+                // 一般方法放仔哪裡:類的原型對象上，供實例對象使用
+                // this就是實例對象
+                console.log(`我叫${this.name},我的年齡是${this.age}`);
+            }
+        }
+
+        // 創建person實例對象
+        // const p1 = new Person('tom', 18);
+        // const p2 = new Person('jerry', 19);
+
+        // console.log(p1);
+        // console.log(p2);
+        // p1.speak();
+        // p2.speak();
+
+        // 繼承
+        class Student extends Person {
+            constructor(name, age, grade) {
+                super(name, age);
+                this.grade = grade;
+            };
+            // 重寫
+            speak() {
+                console.log(`我叫${this.name},我的年齡是${this.age},我讀${this.grade}年級`);
+            }
+            study() {
+                // study方法放在類的原型對象上，供實例使用
+                // 通過student實例對象調用此方法時，此方法的this就是student實例對象
+                console.log('我很努力學習');
+            }
+        }
+
+        const s1 = new Student('小張', 15, '高一');
+        console.log(s1);
+        s1.speak();
+        s1.study();
+    </script>
+</body>
+</html>

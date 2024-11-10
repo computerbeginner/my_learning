@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_引出生命週期</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> //類型一定要寫babel
+        class Life extends React.Component {
+            state = {opacity: 1}
+
+            death = () => {
+                // 卸載組件
+                ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+            }
+
+            // 組件掛載完畢
+            componentDidMount() {
+                this.timer = setInterval(() => {
+                    // 獲取原狀態
+                    let {opacity} = this.state
+                    opacity -= 0.1
+                    if(opacity <= 0) opacity = 1
+                    // 設置新的透明度
+                    this.setState({opacity: opacity})
+                }, 200)
+            }
+
+            // 組件將要卸載
+            componentWillUnmount() {
+                // 清除定時器
+                clearInterval(this.timer)
+            }
+
+            // 初始化渲染、狀態更新之後
+            render() {
+                console.log('@')
+                return (
+                    <div>
+                        <h2 style={{opacity: this.state.opacity}}>React</h2>    
+                        <button onClick={this.death}>提交</button>
+                    </div>
+                )
+            }
+        }
+        
+        ReactDOM.render(<Life/>, document.getElementById('test'));
+    </script>
+</body>
+</html>

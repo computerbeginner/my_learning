@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2_回調函數形式的refs</title>
+</head>
+<body>
+    <!-- 準備一個容器 -->
+    <div id="test"></div>
+
+    <!-- 引入react核心庫 -->
+    <script type="text/javascript" src="../js/react.development.js"></script>
+    <!-- 引入react-dom 用於支持react操作DOM -->
+    <script type="text/javascript" src="../js/react-dom.development.js"></script>
+    <!-- 引入babel 用於將jsx轉為js -->
+    <script type="text/javascript" src="../js/babel.min.js"></script>
+
+    <script type="text/babel"> //類型一定要寫babel
+        class Demo extends React.Component {
+            // 展示左側輸入框的數據
+            showData = () => {
+                console.log(this)
+                const {input1} = this
+                alert(input1.value)
+            }
+            // 展示右側輸入框的數據
+            showData2 = () => {
+                console.log(this)
+                const {input2} = this
+                alert(input2.value)
+            }
+
+            render() {
+                return (
+                    // currentNode為當前標籤元素，並且賦值在實例對象上，此為ref的回調函數形式
+                    <div>
+                        <input ref={currentNode => {this.input1 = currentNode}} type="text" placeholder="點擊按鈕提示數據" />&nbsp;
+                        <button onClick={this.showData}>點我提示左側數據</button>&nbsp;
+                        <input ref={currentNode => {this.input2 = currentNode}} onBlur={this.showData2} type="text" placeholder="失去焦點提示數據" />
+                    </div>
+                )
+            }
+        }
+
+        ReactDOM.render(<Demo/>, document.getElementById('test'))
+    </script>
+</body>
+</html>
